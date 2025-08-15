@@ -1,0 +1,27 @@
+import streamlit as st
+
+# TVS-themed UI
+st.set_page_config(page_title="TVS Credit Loan Bot", page_icon="🏍️")
+st.markdown("""
+<style>
+.stButton>button { background-color: #E31937; color: white; }
+.stTextInput>div>div>input { border: 2px solid #E31937; }
+</style>
+""", unsafe_allow_html=True)
+
+st.title("TVS Credit Loan Approval 🏍️")
+st.image("https://via.placeholder.com/600x150/E31937/FFFFFF?text=TVS+Credit", width=400)
+
+# Chatbot logic
+age = st.number_input("Your age?", 18, 60)
+income = st.number_input("Monthly income (₹)?", 1000, 500000)
+loan_amount = st.number_input("Loan amount needed (₹)?", 1000, 500000)
+vehicle_value = st.number_input("Vehicle value (₹)?", 1000, 500000)
+
+if st.button("Check Approval"):
+    ltv = loan_amount / vehicle_value
+    credit_score = min(850, 300 + (income // 5000))  # Mock scoring
+    approved = (age >= 21) and (ltv < 0.8) and (credit_score > 600)
+    
+    st.success(f"Decision: {'✅ APPROVED' if approved else '❌ DECLINED'}")
+    st.write(f"**Credit Score:** {credit_score} | **LTV Ratio:** {ltv:.0%}")
